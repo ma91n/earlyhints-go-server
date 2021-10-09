@@ -6,13 +6,19 @@ import (
 	"io"
 	"log"
 	"net"
+	"os"
 	"strconv"
 	"strings"
 	"time"
 )
 
 func main() {
-	tcpAddr, err := net.ResolveTCPAddr("tcp", ":8080")
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	tcpAddr, err := net.ResolveTCPAddr("tcp", ":" + port)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -99,8 +105,9 @@ func httpHandler(conn *net.TCPConn) {
 	fmt.Println("BODY length:", len(buf))
 
 	conn.Write([]byte("HTTP/1.1 103 Early Hints\r\n"))
+	//conn.Write([]byte("Link: /styles.css; rel=preload\r\n"))
 	conn.Write([]byte("Link: /styles.css; rel=preload; as=style\r\n"))
-	conn.Write([]byte("\r\n"))
+	//conn.Write([]byte("Link: https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css; rel=preload; as=style\r\n"))
 	conn.Write([]byte("\r\n"))
 
 
