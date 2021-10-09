@@ -105,9 +105,8 @@ func httpHandler(conn *net.TCPConn) {
 	fmt.Println("BODY length:", len(buf))
 
 	conn.Write([]byte("HTTP/1.1 103 Early Hints\r\n"))
-	//conn.Write([]byte("Link: /styles.css; rel=preload\r\n"))
 	conn.Write([]byte("Link: /styles.css; rel=preload; as=style\r\n"))
-	//conn.Write([]byte("Link: https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css; rel=preload; as=style\r\n"))
+	conn.Write([]byte("Link: https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css; rel=preload; as=style\r\n"))
 	conn.Write([]byte("\r\n"))
 
 
@@ -140,5 +139,9 @@ func httpHandler(conn *net.TCPConn) {
 
 	performance.getEntriesByName('http://localhost:8080/style.css')[0].initiatorType
 	'link'
+
+	performance.getEntriesByName('https://earlyhints-go-server-4gc7p2zc6a-uc.a.run.app/style.css')[0].initiatorType
+
+
 	 */
 }
